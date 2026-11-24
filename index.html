@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Калькулятор автоцивілки (ОСЦПВ) — СК «Експрес Страхування»</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef2f6;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --navy: #0b2545;
+      --navy-soft: #eef4fb;
+      --green: #16803c;
+      --green-soft: #f0fdf4;
+      --green-border: #16a34a;
+      --amber-bg: #fffbeb;
+      --amber-border: #fde68a;
+      --amber-text: #92400e;
+      --tg: #0088cc;
+      --tg-dark: #006fa6;
+      --viber: #7360f2;
+      --viber-dark: #5b48d8;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .select-arrow {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 18px;
+      padding-right: 42px;
+    }
+
+    .dropdown-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .dropdown-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 999px;
+    }
+
+    .price-banner {
+      background: linear-gradient(135deg, #0b2545 0%, #134074 58%, #0f766e 100%);
+      box-shadow: 0 12px 26px rgba(11, 37, 69, 0.22);
+    }
+  </style>
+</head>
+<body class="min-h-screen py-5 px-3 sm:px-5">
+  <div class="max-w-[640px] mx-auto">
+    <!-- 1. Шапка картки -->
+    <header class="text-center mb-5 px-2">
+      <div class="inline-flex items-center gap-2 bg-[#0b2545] text-white rounded-full px-4 py-1.5 text-[12.5px] font-bold tracking-tight shadow-sm mb-3">
+        <span class="w-2 h-2 rounded-full bg-[#22c55e]"></span>
+        <span>СК «Експрес Страхування»</span>
+      </div>
+      <h1 class="text-[26px] sm:text-[31px] font-extrabold text-[#0b2545] leading-[1.15] tracking-tight mb-2">
+        Калькулятор автоцивілки (ОСЦПВ)
+      </h1>
+      <p class="text-[13.5px] sm:text-[14px] text-[#64748b] max-w-[490px] mx-auto leading-snug">
+        Миттєвий точний розрахунок вартості поліса за офіційними тарифами компанії (франшиза 0 грн)
+      </p>
+    </header>
+
+    <!-- Основна біла картка калькулятора -->
+    <main class="bg-white rounded-[22px] border border-[#e2e8f0] shadow-[0_10px_30px_rgba(11,37,69,0.06)] p-4 sm:p-6 space-y-6">
+
+      <!-- 2. Крок 1: Тип транспортного засобу -->
+      <section>
+        <label for="vehicleSelect" class="block text-[15px] font-bold text-[#0b2545] mb-2.5">
+          1. Тип транспортного засобу
+        </label>
+        <select
+          id="vehicleSelect"
+          class="select-arrow w-full rounded-[14px] border-[1.5px] border-[#e2e8f0] bg-white px-3.5 py-3 text-[14.5px] font-medium text-[#0f172a] focus:outline-none focus:border-[#0b2545] focus:ring-4 focus:ring-[#0b2545]/10 transition"
+        >
+          <optgroup label="Легкові автомобілі та електромобілі">
+            <option value="B1">Легковий автомобіль до 1600 см³ (B1)</option>
+            <option value="B2">Легковий автомобіль 1601–2000 см³ (B2)</option>
+            <option value="B3">Легковий автомобіль 2001–3000 см³ (B3)</option>
+            <option value="B4">Легковий автомобіль понад 3000 см³ (B4)</option>
+            <option value="B5">Електромобіль (B5)</option>
+          </optgroup>
+          <optgroup label="Вантажні автомобілі та автобуси">
+            <option value="C1">Вантажний автомобіль до 2 т (C1)</option>
+            <option value="C2">Вантажний автомобіль понад 2 т (C2)</option>
+            <option value="D1">Автобус до 20 пасажирів (D1)</option>
+            <option value="D2">Автобус понад 20 пасажирів (D2)</option>
+          </optgroup>
+          <optgroup label="Причепи">
+            <option value="F">Причеп до легкового авто / мотоцикла (F)</option>
+            <option value="E">Причеп до вантажного авто / автобуса (E)</option>
+          </optgroup>
+          <optgroup label="Мотоцикли">
+            <option value="A1">Мотоцикл до 300 см³ (A1)</option>
+            <option value="A2">Мотоцикл понад 300 см³ (A2)</option>
+          </optgroup>
+        </select>
+      </section>
+
+      <!-- 3. Крок 2: Місце реєстрації власника (за техпаспортом) -->
+      <section>
+        <label for="cityInput" class="block text-[15px] font-bold text-[#0b2545] mb-2.5">
+          2. Місце реєстрації власника (за техпаспортом)
+        </label>
+
+        <!-- Поле пошуку населеного пункту -->
+        <div class="relative" id="searchContainer">
+          <input
+            type="text"
+            id="cityInput"
+            placeholder="Введіть місто, селище або село (наприклад: Київ, Кропивницький, Кам'янець)..."
+            autocomplete="off"
+            class="w-full rounded-[14px] border-[1.5px] border-[#e2e8f0] bg-white px-3.5 py-3 text-[14.5px] text-[#0f172a] placeholder-[#94a3b8] focus:outline-none focus:border-[#0b2545] focus:ring-4 focus:ring-[#0b2545]/10 transition"
+          />
+          <div
+            id="cityDropdown"
+            class="dropdown-scroll hidden absolute left-0 right-0 top-[calc(100%+6px)] bg-white border border-[#cbd5e1] rounded-[14px] shadow-[0_14px_28px_rgba(15,23,42,0.14)] max-h-[240px] overflow-y-auto z-30"
+          ></div>
+        </div>
+
+        <!-- Кнопка іноземної реєстрації (ЗОНА 6) -->
+        <button
+          type="button"
+          id="foreignBtn"
+          class="mt-2.5 w-full rounded-[14px] border border-[#e2e8f0] bg-[#f8fafc] hover:bg-[#f1f5f9] px-3.5 py-2.5 flex items-center justify-between gap-2 text-left transition"
+        >
+          <span class="flex items-center gap-2 text-[13px] font-semibold text-[#0f172a]">
+            <span class="text-[16px] leading-none">🌐</span>
+            <span>Авто зареєстроване в іншій країні</span>
+          </span>
+          <span
+            id="zone6Badge"
+            class="rounded-[8px] bg-[#e2e8f0] text-[#334155] text-[11px] font-extrabold px-2.5 py-1 tracking-wide shrink-0"
+          >
+            ЗОНА 6
+          </span>
+        </button>
+      </section>
+
+      <!-- 4. Крок 3: Пільги (знижка 50% за законом) -->
+      <section>
+        <div class="text-[15px] font-bold text-[#0b2545] mb-2.5">
+          3. Пільги (знижка 50% за законом)
+        </div>
+
+        <div class="space-y-2.5">
+          <!-- Картка Без пільг -->
+          <div
+            id="privNoOption"
+            role="button"
+            tabindex="0"
+            class="rounded-[14px] border-[1.5px] border-[#16a34a] bg-[#f0fdf4] px-4 py-3 flex items-center justify-between gap-3 cursor-pointer transition"
+          >
+            <div>
+              <div class="text-[14.5px] font-bold text-[#0f172a]">Без пільг</div>
+              <div class="text-[12.5px] text-[#64748b] mt-0.5">Стандартний тариф</div>
+            </div>
+            <span
+              id="privNoRadio"
+              class="w-3.5 h-3.5 rounded-full bg-[#16803c] shrink-0 transition"
+            ></span>
+          </div>
+
+          <!-- Картка Пільговик (-50%) -->
+          <div
+            id="privYesOption"
+            role="button"
+            tabindex="0"
+            class="rounded-[14px] border-[1.5px] border-[#e2e8f0] bg-white hover:bg-[#f8fafc] px-4 py-3 flex items-center justify-between gap-3 cursor-pointer transition"
+          >
+            <div>
+              <div class="text-[14.5px] font-bold text-[#0f172a]">Пільговик (-50%)</div>
+              <div class="text-[12.5px] text-[#64748b] mt-0.5">
+                УБД, пенсіонери, інвалідність I–II гр., чорнобильці I–II кат.
+              </div>
+            </div>
+            <span
+              id="privYesRadio"
+              class="w-3.5 h-3.5 rounded-full border-2 border-[#cbd5e1] bg-transparent shrink-0 transition"
+            ></span>
+          </div>
+        </div>
+
+        <!-- Примітка лише для пільговиків -->
+        <div
+          id="privilegeNoteBox"
+          class="hidden mt-2.5 rounded-[12px] bg-[#fffbeb] border border-[#fde68a] px-3.5 py-2.5 text-[12px] text-[#92400e] leading-snug"
+        >
+          <strong>Важливо:</strong> знижка 50% діє <strong>виключно для власників транспортного засобу</strong> (особа має бути зазначена власником у техпаспорті). За законом про ОСЦПВ пільга надається на одне власне авто з об'ємом двигуна до 2500 см³ або електромобіль до 100 кВт, за умови керування виключно страхувальником (або у його присутності / для осіб з інвалідністю I групи) та без комерційних перевезень.
+        </div>
+      </section>
+
+      <!-- 5. Крок 4: Строк дії договору -->
+      <section>
+        <div class="text-[15px] font-bold text-[#0b2545] mb-2.5">
+          4. Строк дії договору
+        </div>
+        <div class="grid grid-cols-2 gap-2.5">
+          <button
+            type="button"
+            data-months="12"
+            data-coef="1.0"
+            class="term-btn rounded-[14px] border-[1.5px] border-[#0b2545] bg-[#0b2545] text-white py-3 px-3 text-[14px] font-bold transition"
+          >
+            1 рік (12 міс.)
+          </button>
+          <button
+            type="button"
+            data-months="6"
+            data-coef="0.75"
+            class="term-btn rounded-[14px] border-[1.5px] border-[#e2e8f0] bg-white hover:bg-[#f8fafc] text-[#0f172a] py-3 px-3 text-[14px] font-bold transition"
+          >
+            6 місяців
+          </button>
+        </div>
+      </section>
+
+      <!-- 6. Блок результату -->
+      <section class="rounded-[18px] bg-[#f8fafc] border-[1.5px] border-[#cbd5e1] p-4 sm:p-5">
+        <!-- Інформаційний блок до вибору місця реєстрації -->
+        <div id="lockedState" class="rounded-[14px] bg-[#eef4fb] border border-dashed border-[#93c5fd] p-4 text-center">
+          <div class="text-[15px] font-bold text-[#0b2545] mb-1">
+            Спочатку оберіть місце реєстрації
+          </div>
+          <div class="text-[13px] text-[#475569]">
+            Введіть населений пункт у пункті 2 або оберіть одну з кнопок зони — після цього буде видно тариф.
+          </div>
+        </div>
+
+        <!-- Блок розрахунку після визначення місця реєстрації -->
+        <div id="unlockedState" class="hidden">
+          <!-- Виразний кольоровий блок лише з вартістю -->
+          <div class="price-banner rounded-[16px] px-5 py-6 text-center text-white mb-4">
+            <div id="priceDisplay" class="text-[36px] sm:text-[42px] font-extrabold tracking-tight leading-none">
+              — грн
+            </div>
+          </div>
+
+          <!-- Напис «Хочу оформити» та кнопки дій -->
+          <div class="text-center text-[14px] font-bold text-[#0b2545] mb-2.5">
+            Хочу оформити
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <a
+              id="tgBtn"
+              href="https://t.me/Valeriia_Sulima"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-[12px] bg-[#0088cc] hover:bg-[#006fa6] text-white font-bold text-[13.5px] py-3 px-3.5 text-center transition shadow-sm"
+            >
+              Telegram
+            </a>
+            <a
+              id="viberBtn"
+              href="viber://chat?number=%2B380665736196"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="rounded-[12px] bg-[#7360f2] hover:bg-[#5b48d8] text-white font-bold text-[13.5px] py-3 px-3.5 text-center transition shadow-sm"
+            >
+              Viber
+            </a>
+            <button
+              type="button"
+              id="copyBtn"
+              class="rounded-[12px] bg-[#eef4fb] hover:bg-[#dbeafe] border border-[#bfdbfe] text-[#0b2545] font-bold text-[13.5px] py-3 px-3.5 text-center transition"
+            >
+              Скопіювати заявку
+            </button>
+          </div>
+
+          <div id="copyToast" class="text-[12.5px] font-semibold text-[#16803c] text-center mt-2 min-h-[18px]"></div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    /**
+     * Офіційні річні тарифи СК «Експрес Страхування» (франшиза 0 грн) для ЗОН 1–6
+     */
+    const ANNUAL_RATES = {
+      "ЗОНА 1": { B1: 4535, B2: 5351, B3: 5578, B4: 7936, B5: 6802, F: 1360, C1: 9070, C2: 10884, D1: 13605, D2: 15872, E: 2267, A1: 1814, A2: 2494 },
+      "ЗОНА 2": { B1: 4308, B2: 5084, B3: 5299, B4: 7539, B5: 6462, F: 1292, C1: 8616, C2: 10340, D1: 12925, D2: 15079, E: 2154, A1: 1723, A2: 2369 },
+      "ЗОНА 3": { B1: 3174, B2: 3746, B3: 3905, B4: 5555, B5: 4762, F: 952,  C1: 6349, C2: 7619,  D1: 9523,  D2: 11111, E: 1587, A1: 1270, A2: 1746 },
+      "ЗОНА 4": { B1: 3288, B2: 3880, B3: 4044, B4: 5754, B5: 4932, F: 986,  C1: 6576, C2: 7891,  D1: 9863,  D2: 11507, E: 1644, A1: 1315, A2: 1808 },
+      "ЗОНА 5": { B1: 2267, B2: 2676, B3: 2789, B4: 3968, B5: 3401, F: 680,  C1: 4535, C2: 5442,  D1: 6802,  D2: 7936,  E: 1134, A1: 907,  A2: 1247 },
+      "ЗОНА 6": { B1: 7936, B2: 9365, B3: 9761, B4: 13888, B5: 11904, F: 2381, C1: 15872, C2: 19047, D1: 23808, D2: 27776, E: 3968, A1: 3174, A2: 4365 }
+    };
+
+    /**
+     * Довідник населених пунктів України для визначення тарифної зони
+     */
+    const CITIES_DB = [
+      { name: "Київ", zone: "ЗОНА 1" },
+      { name: "Дніпро", zone: "ЗОНА 2" },
+      { name: "Львів", zone: "ЗОНА 2" },
+      { name: "Одеса", zone: "ЗОНА 2" },
+      { name: "Харків", zone: "ЗОНА 2" },
+      { name: "Бориспіль", zone: "ЗОНА 2" },
+      { name: "Боярка", zone: "ЗОНА 2" },
+      { name: "Бровари", zone: "ЗОНА 2" },
+      { name: "Буча", zone: "ЗОНА 2" },
+      { name: "Васильків", zone: "ЗОНА 2" },
+      { name: "Вишгород", zone: "ЗОНА 2" },
+      { name: "Вишневе", zone: "ЗОНА 2" },
+      { name: "Ірпінь", zone: "ЗОНА 2" },
+      { name: "Обухів", zone: "ЗОНА 2" },
+      { name: "Донецьк", zone: "ЗОНА 3" },
+      { name: "Запоріжжя", zone: "ЗОНА 3" },
+      { name: "Кривий Ріг", zone: "ЗОНА 3" },
+      { name: "Алчевськ", zone: "ЗОНА 4" },
+      { name: "Бердянськ", zone: "ЗОНА 4" },
+      { name: "Біла Церква", zone: "ЗОНА 4" },
+      { name: "Вінниця", zone: "ЗОНА 4" },
+      { name: "Горлівка", zone: "ЗОНА 4" },
+      { name: "Євпаторія", zone: "ЗОНА 4" },
+      { name: "Житомир", zone: "ЗОНА 4" },
+      { name: "Івано-Франківськ", zone: "ЗОНА 4" },
+      { name: "Кам'янець-Подільський", zone: "ЗОНА 4" },
+      { name: "Кам'янське", zone: "ЗОНА 4" },
+      { name: "Керч", zone: "ЗОНА 4" },
+      { name: "Кропивницький", zone: "ЗОНА 4" },
+      { name: "Краматорськ", zone: "ЗОНА 4" },
+      { name: "Кременчук", zone: "ЗОНА 4" },
+      { name: "Лисичанськ", zone: "ЗОНА 4" },
+      { name: "Луганськ", zone: "ЗОНА 4" },
+      { name: "Луцьк", zone: "ЗОНА 4" },
+      { name: "Макіївка", zone: "ЗОНА 4" },
+      { name: "Маріуполь", zone: "ЗОНА 4" },
+      { name: "Мелітополь", zone: "ЗОНА 4" },
+      { name: "Миколаїв", zone: "ЗОНА 4" },
+      { name: "Нікополь", zone: "ЗОНА 4" },
+      { name: "Павлоград", zone: "ЗОНА 4" },
+      { name: "Полтава", zone: "ЗОНА 4" },
+      { name: "Рівне", zone: "ЗОНА 4" },
+      { name: "Севастополь", zone: "ЗОНА 4" },
+      { name: "Сєверодонецьк", zone: "ЗОНА 4" },
+      { name: "Сімферополь", zone: "ЗОНА 4" },
+      { name: "Слов'янськ", zone: "ЗОНА 4" },
+      { name: "Суми", zone: "ЗОНА 4" },
+      { name: "Тернопіль", zone: "ЗОНА 4" },
+      { name: "Ужгород", zone: "ЗОНА 4" },
+      { name: "Херсон", zone: "ЗОНА 4" },
+      { name: "Хмельницький", zone: "ЗОНА 4" },
+      { name: "Черкаси", zone: "ЗОНА 4" },
+      { name: "Чернівці", zone: "ЗОНА 4" },
+      { name: "Чернігів", zone: "ЗОНА 4" }
+    ];
+
+    const CONTACTS = {
+      manager: "Валерія Суліма",
+      telegram: "Valeriia_Sulima",
+      viberNumber: "%2B380665736196"
+    };
+
+    const state = {
+      vehicle: "B1",
+      hasLocation: false,
+      locationName: "",
+      zone: null,
+      isForeign: false,
+      privilege: false,
+      termMonths: 12,
+      termCoef: 1.0
+    };
+
+    const vehicleSelect = document.getElementById("vehicleSelect");
+    const cityInput = document.getElementById("cityInput");
+    const cityDropdown = document.getElementById("cityDropdown");
+    const foreignBtn = document.getElementById("foreignBtn");
+    const zone6Badge = document.getElementById("zone6Badge");
+    const privNoOption = document.getElementById("privNoOption");
+    const privYesOption = document.getElementById("privYesOption");
+    const privNoRadio = document.getElementById("privNoRadio");
+    const privYesRadio = document.getElementById("privYesRadio");
+    const privilegeNoteBox = document.getElementById("privilegeNoteBox");
+    const lockedState = document.getElementById("lockedState");
+    const unlockedState = document.getElementById("unlockedState");
+    const priceDisplay = document.getElementById("priceDisplay");
+    const tgBtn = document.getElementById("tgBtn");
+    const viberBtn = document.getElementById("viberBtn");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyToast = document.getElementById("copyToast");
+
+    /**
+     * Нормалізує назву населеного пункту для пошуку
+     */
+    function normalizeText(str) {
+      return (str || "")
+        .toLowerCase()
+        .replace(/[’`ʼ']/g, "")
+        .replace(/^(м\.|смт\.|с\.|місто|село|селище)\s+/i, "")
+        .trim();
+    }
+
+    /**
+     * Повертає зрозумілий підпис для визначеної тарифної зони
+     */
+    function formatZoneLabel(zone) {
+      if (!zone) return "";
+      if (zone === "ЗОНА 5") return "Інші населені пункти України (ЗОНА 5)";
+      if (zone === "ЗОНА 6") return "Авто зареєстроване в іншій країні (ЗОНА 6)";
+      return zone;
+    }
+
+    /**
+     * Форматує числове значення у гривнях
+     */
+    function formatPrice(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " грн";
+    }
+
+    /**
+     * Оновлює візуальний стан кнопки іноземної реєстрації (ЗОНА 6)
+     */
+    function updateLocationUI() {
+      const isZ6Active = state.isForeign;
+      foreignBtn.classList.toggle("bg-[#0b2545]", isZ6Active);
+      foreignBtn.classList.toggle("border-[#0b2545]", isZ6Active);
+      foreignBtn.querySelector("span").classList.toggle("text-white", isZ6Active);
+      foreignBtn.querySelector("span").classList.toggle("text-[#0f172a]", !isZ6Active);
+      zone6Badge.classList.toggle("bg-white/20", isZ6Active);
+      zone6Badge.classList.toggle("text-white", isZ6Active);
+      zone6Badge.classList.toggle("bg-[#e2e8f0]", !isZ6Active);
+      zone6Badge.classList.toggle("text-[#334155]", !isZ6Active);
+    }
+
+    /**
+     * Оновлює вибір пільг та показує примітку лише при виборі «Пільговик (-50%)»
+     */
+    function updatePrivilegeUI() {
+      if (!state.privilege) {
+        privNoOption.className = "rounded-[14px] border-[1.5px] border-[#16a34a] bg-[#f0fdf4] px-4 py-3 flex items-center justify-between gap-3 cursor-pointer transition";
+        privNoRadio.className = "w-3.5 h-3.5 rounded-full bg-[#16803c] shrink-0 transition";
+        privYesOption.className = "rounded-[14px] border-[1.5px] border-[#e2e8f0] bg-white hover:bg-[#f8fafc] px-4 py-3 flex items-center justify-between gap-3 cursor-pointer transition";
+        privYesRadio.className = "w-3.5 h-3.5 rounded-full border-2 border-[#cbd5e1] bg-transparent shrink-0 transition";
+        privilegeNoteBox.classList.add("hidden");
+      } else {
+        privYesOption.className = "rounded-[14px] border-[1.5px] border-[#16a34a] bg-[#f0fdf4] px-4 py-3 flex items-center justify-between gap-3 cursor-pointer transition";
+        privYesRadio.className = "w-3.5 h-3.5 rounded-full bg-[#16803c] shrink-0 transition";
+        privNoOption.className = "rounded-[14px] border-[1.5px] border-[#e2e8f0] bg-white hover:bg-[#f8fafc] px-4 py-3 flex items-center justify-between gap-3 cursor-pointer transition";
+        privNoRadio.className = "w-3.5 h-3.5 rounded-full border-2 border-[#cbd5e1] bg-transparent shrink-0 transition";
+        privilegeNoteBox.classList.remove("hidden");
+      }
+    }
+
+    /**
+     * Формує текст заявки з параметрами для Telegram, Viber та буфера обміну
+     */
+    function buildApplicationText(roundedPrice) {
+      const selectedOptionText = vehicleSelect.options[vehicleSelect.selectedIndex].text;
+      const termText = state.termMonths === 12 ? "1 рік (12 міс.)" : "6 місяців";
+      const cityPart = state.locationName ? `${state.locationName} — ` : "";
+      const placeDisplay = state.zone === "ЗОНА 6"
+        ? `${cityPart}Авто зареєстроване в іншій країні (ЗОНА 6)`
+        : `${cityPart}${formatZoneLabel(state.zone)}`;
+
+      return [
+        "Хочу оформити ОСЦПВ (СК «Експрес Страхування»):",
+        `• Тип ТЗ: ${selectedOptionText}`,
+        `• Місце реєстрації: ${placeDisplay}`,
+        `• Пільги: ${state.privilege ? "Пільговик (-50%, власник за техпаспортом)" : "Без пільг"}`,
+        `• Строк дії: ${termText}`,
+        `• Вартість: ${formatPrice(roundedPrice)}`
+      ].join("\n");
+    }
+
+    /**
+     * Розраховує підсумкову вартість та оновлює блок результату і посилання месенджерів
+     */
+    function recalculate() {
+      copyToast.textContent = "";
+      updateLocationUI();
+
+      if (!state.hasLocation || !state.zone) {
+        lockedState.classList.remove("hidden");
+        unlockedState.classList.add("hidden");
+        return;
+      }
+
+      lockedState.classList.add("hidden");
+      unlockedState.classList.remove("hidden");
+
+      const baseAnnual = ANNUAL_RATES[state.zone]?.[state.vehicle] || 0;
+      let total = baseAnnual * state.termCoef;
+      if (state.privilege) {
+        total = total * 0.5;
+      }
+      const rounded = Math.round(total);
+
+      priceDisplay.textContent = formatPrice(rounded);
+
+      const appText = buildApplicationText(rounded);
+      const encoded = encodeURIComponent(appText);
+      tgBtn.href = `https://t.me/${CONTACTS.telegram}?text=${encoded}`;
+      viberBtn.href = `viber://chat?number=${CONTACTS.viberNumber}&draft=${encoded}`;
+    }
+
+    /**
+     * Будує випадаючий список варіантів для пошукового поля:
+     * показує збіги з довідника + варіант ЗОНА 5 при відсутності повного збігу
+     */
+    function renderDropdown(raw) {
+      const q = normalizeText(raw);
+      cityDropdown.innerHTML = "";
+
+      if (!q) {
+        cityDropdown.classList.add("hidden");
+        return;
+      }
+
+      const exactMatch = CITIES_DB.find(item => normalizeText(item.name) === q);
+      const partialMatches = CITIES_DB.filter(item => normalizeText(item.name).includes(q)).slice(0, 7);
+
+      partialMatches.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "px-3.5 py-2.5 flex items-center justify-between gap-2 text-[13.5px] hover:bg-[#eef4fb] cursor-pointer border-b border-[#f1f5f9] last:border-b-0";
+        row.innerHTML = `<span class="font-medium text-[#0f172a]">${item.name}</span><span class="rounded-full bg-[#eef4fb] text-[#0b2545] text-[11px] font-bold px-2.5 py-0.5 shrink-0">${item.zone}</span>`;
+        row.addEventListener("click", () => {
+          cityInput.value = `${item.name} (${item.zone})`;
+          state.locationName = item.name;
+          state.zone = item.zone;
+          state.hasLocation = true;
+          state.isForeign = false;
+          cityDropdown.classList.add("hidden");
+          recalculate();
+        });
+        cityDropdown.appendChild(row);
+      });
+
+      // Якщо немає повного збігу з містом із довідника, додаємо варіант ЗОНА 5 (інші населені пункти)
+      if (!exactMatch) {
+        const cleanDisplay = raw.trim();
+        const zone5Row = document.createElement("div");
+        zone5Row.className = "px-3.5 py-2.5 flex items-center justify-between gap-2 text-[13.5px] hover:bg-[#eef4fb] cursor-pointer border-b border-[#f1f5f9] last:border-b-0";
+        zone5Row.innerHTML = `
+          <div>
+            <div class="font-semibold text-[#0f172a]">${cleanDisplay}</div>
+            <div class="text-[11.5px] text-[#64748b]">Інші населені пункти України</div>
+          </div>
+          <span class="rounded-full bg-[#f0fdf4] border border-[#bbf7d0] text-[#16803c] text-[11px] font-bold px-2.5 py-0.5 shrink-0">ЗОНА 5</span>
+        `;
+        zone5Row.addEventListener("click", () => {
+          cityInput.value = `${cleanDisplay} (ЗОНА 5)`;
+          state.locationName = cleanDisplay;
+          state.zone = "ЗОНА 5";
+          state.hasLocation = true;
+          state.isForeign = false;
+          cityDropdown.classList.add("hidden");
+          recalculate();
+        });
+        cityDropdown.appendChild(zone5Row);
+      }
+
+      cityDropdown.classList.toggle("hidden", cityDropdown.children.length === 0);
+    }
+
+    vehicleSelect.addEventListener("change", () => {
+      state.vehicle = vehicleSelect.value;
+      recalculate();
+    });
+
+    cityInput.addEventListener("input", () => {
+      const raw = cityInput.value.trim();
+      state.isForeign = false;
+
+      if (!raw) {
+        state.locationName = "";
+        state.zone = null;
+        state.hasLocation = false;
+        cityDropdown.classList.add("hidden");
+        recalculate();
+        return;
+      }
+
+      const q = normalizeText(raw);
+      const exactMatch = CITIES_DB.find(item => normalizeText(item.name) === q);
+
+      if (exactMatch) {
+        // При повному збігу назви одразу підтягуємо місто та його зону
+        state.locationName = exactMatch.name;
+        state.zone = exactMatch.zone;
+        state.hasLocation = true;
+        renderDropdown(raw);
+        recalculate();
+      } else {
+        // До вибору конкретного варіанта зі списку ціна лишається прихованою
+        state.locationName = raw;
+        state.zone = null;
+        state.hasLocation = false;
+        renderDropdown(raw);
+        recalculate();
+      }
+    });
+
+    cityInput.addEventListener("focus", () => {
+      const raw = cityInput.value.trim();
+      if (raw && !state.hasLocation) {
+        renderDropdown(raw);
+      }
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!e.target.closest("#searchContainer")) {
+        cityDropdown.classList.add("hidden");
+      }
+    });
+
+    foreignBtn.addEventListener("click", () => {
+      cityDropdown.classList.add("hidden");
+      cityInput.value = "";
+      state.isForeign = true;
+      state.locationName = "";
+      state.zone = "ЗОНА 6";
+      state.hasLocation = true;
+      recalculate();
+    });
+
+    privNoOption.addEventListener("click", () => {
+      state.privilege = false;
+      updatePrivilegeUI();
+      recalculate();
+    });
+
+    privYesOption.addEventListener("click", () => {
+      state.privilege = true;
+      updatePrivilegeUI();
+      recalculate();
+    });
+
+    document.querySelectorAll(".term-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".term-btn").forEach(b => {
+          b.classList.remove("border-[#0b2545]", "bg-[#0b2545]", "text-white");
+          b.classList.add("border-[#e2e8f0]", "bg-white", "text-[#0f172a]");
+        });
+        btn.classList.remove("border-[#e2e8f0]", "bg-white", "text-[#0f172a]");
+        btn.classList.add("border-[#0b2545]", "bg-[#0b2545]", "text-white");
+
+        state.termMonths = Number(btn.dataset.months);
+        state.termCoef = Number(btn.dataset.coef);
+        recalculate();
+      });
+    });
+
+    copyBtn.addEventListener("click", () => {
+      if (!state.hasLocation || !state.zone) return;
+      const baseAnnual = ANNUAL_RATES[state.zone]?.[state.vehicle] || 0;
+      let total = baseAnnual * state.termCoef;
+      if (state.privilege) {
+        total = total * 0.5;
+      }
+      const rounded = Math.round(total);
+      const text = buildApplicationText(rounded);
+
+      const ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.left = "-9999px";
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand("copy");
+        copyToast.textContent = "Текст заявки скопійовано!";
+      } catch (err) {
+        copyToast.textContent = "Не вдалося скопіювати текст.";
+      }
+      document.body.removeChild(ta);
+    });
+
+    updatePrivilegeUI();
+    recalculate();
+  </script>
+</body>
+</html>
